@@ -1,0 +1,89 @@
+<!-- MODAL AGREGAR -->
+<div class="modal fade" id="modal_agregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" style="background-color: white;">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Dirección</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form name="formu">
+					<div class="form-group" ng-class="{'has-error': formu.nombre.$error.required && formu.nombre.$dirty}">
+						<label>Nombre:</label>
+						<input class="form-control" ng-model="nombre" type="text" name="nombre" required="" maxlength="100" placeholder="Nombre" autocomplete="off">
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+				<button ng-show="status_agregar" type="button" class="btn btn-primary" ng-click="agregar()" ng-disabled="!formu.$valid">Guardar</button>
+				<button ng-show="!status_agregar" type="button" class="btn btn-primary" ng-click="modificar()" ng-disabled="!formu.$valid">Guardar</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="row">
+	<div class="col-lg-12 grid-margin stretch-card">
+		<div class="card">
+			<div class="card-body">
+				<h4 class="card-title text-primary">Direcciones</h4>
+				<div class="form-group">
+					<button type="button" ng-click="load_agregar()" class="btn btn-primary"><i class="mdi mdi-plus text-white"></i> Agregar</button>
+				</div>
+				<div class="form-group">
+					<div class="input-group">
+						<input ng-change="filtrar_data()" type="text" ng-model="search" class="form-control" placeholder="Buscar" aria-label="Username" aria-describedby="colored-addon3">
+						<div class="input-group-append bg-primary border-primary">
+							<span class="input-group-text bg-transparent">
+								<i class="mdi mdi-magnify text-white"></i>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-hover table-sm">
+						<thead>
+							<tr>
+								<th>
+									#
+								</th>
+								<th>
+									Nombre
+								</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="x in data_filtered | startFromGrid: currentPage * pageSize | limitTo: pageSize | filter:search">
+								<td>
+									{{$index+1}}
+								</td>
+								<td>
+									{{x.nombre}}
+								</td>
+								<td>
+									<div class="btn-group" role="group">
+										<button ng-click="load_update(x)" title="Modificar" type="button" class="btn btn-sm btn-inverse-primary"><i class="mdi mdi-pencil"></i></button>
+										<button ng-click="load_eliminar(x)" title="Eliminar" type="button" class="btn btn-sm btn-inverse-danger"><i class="mdi mdi-delete"></i></button>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				
+				<div class='btn-group mt-4'>
+					<button type='button' class='btn btn-outline-secondary' ng-disabled='currentPage <= 0' ng-click='currentPage = currentPage - 1'>&laquo;</button>
+					<button type='button' class='btn btn-outline-secondary' ng-class="{'active': currentPage == page.no - 1}" ng-click='setPage(page.no)' ng-repeat='page in pages'>{{page.no}}</button>
+					<button type='button' class='btn btn-outline-secondary' ng-disabled='currentPage >= data_filtered.length/pageSize - 1' , ng-click='currentPage = currentPage + 1'>&raquo;</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
